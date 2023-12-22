@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\LogoutController;
+use App\Livewire\Auth\Login as LoginPage;
+use App\Livewire\Auth\Register as RegisterPage;
+use App\Livewire\User\Dashboard as UserDashboard;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('', UserDashboard::class)->middleware('auth:web')->name('user.dashboard');
+Route::get('auth/login', LoginPage::class)->middleware('guest')->name('login');
+Route::get('auth/register', RegisterPage::class)->middleware('guest')->name('register');
+Route::post('logout', [LogoutController::class, 'logout'])->middleware('auth:web')->name('logout');
